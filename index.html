@@ -632,7 +632,7 @@
     <!-- Icon img path -->
     <link rel="icon" id="pageFavicon" type="image/x-icon" href="Icon - v3.png">
 
-    <title id="pageTitle">MD Notes Manager</title>
+    <title id="pageTitle">Sammie's Notebook</title>
 
 </head>
 
@@ -683,7 +683,7 @@
     let paneCounter = 0;
     let rowCounter = 0;
     let currentFullscreenPaneId = null;
-    let rootFolderTitle = "MD Notes Manager";
+    let rootFolderTitle = "Sammie's Notebook";
 
     function displayMDContent(MD_String, paneId){
         document.getElementById('content_' + paneId).innerHTML =
@@ -692,11 +692,11 @@
 
     function setPageTitle(fileName = null, useRootTitle = false) {
         if (useRootTitle) {
-            $("#pageTitle").text(rootFolderTitle || "MD Notes Manager");
+            $("#pageTitle").text(rootFolderTitle || "Sammie's Notebook");
             return;
         }
 
-        $("#pageTitle").text(fileName || rootFolderTitle || "MD Notes Manager");
+        $("#pageTitle").text(fileName || rootFolderTitle || "Sammie's Notebook");
     }
 
     function setSidebarIcon(iconSrc = null) {
@@ -1866,7 +1866,7 @@ function getIdealPaneWidth(paneId) {
                 children: {}
             };
 
-            rootFolderTitle = "MD Notes Manager";
+            rootFolderTitle = "Sammie's Notebook";
             setPageTitle(null, true);
             setSidebarIcon(null);
             setChromeFriendlyFavicon(null, "image/png");
@@ -1883,7 +1883,7 @@ function getIdealPaneWidth(paneId) {
 
                     if (parent_folder.type == "root" && $("#" + cleanString(folder_name)).html() == null) {
                         $("#root_folder").text(folder_name);
-                        rootFolderTitle = folder_name || "MD Notes Manager";
+                        rootFolderTitle = folder_name || "Sammie's Notebook";
                         setPageTitle(null, true);
                     }
 
