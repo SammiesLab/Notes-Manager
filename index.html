@@ -1,4 +1,4 @@
-<!-- v1.2.10.1 -->
+<!-- v1.2.10.3 -->
 
 <!DOCTYPE html>
 
@@ -8,6 +8,27 @@
 
 <head>
     <style>
+        :root {
+            --accent-lavender: #b8a1ff;
+            --accent-lavender-soft: #c7b6ff;
+            --accent-lavender-muted: #a996e8;
+            --glow-lavender-soft: rgba(184, 161, 255, 0.18);
+            --glow-lavender: rgba(184, 161, 255, 0.24);
+            --accent-primary: var(--accent-lavender-soft);
+            --accent-primary-muted: var(--accent-lavender-muted);
+            --accent-primary-deep: var(--accent-lavender);
+            --accent-underline: #d8ccff;
+            --glow-primary-soft: rgba(184, 161, 255, 0.15);
+            --glow-primary: rgba(184, 161, 255, 0.2);
+            --glow-primary-strong: rgba(184, 161, 255, 0.24);
+            --glow-primary-inner: rgba(184, 161, 255, 0.08);
+        }
+
+        ::selection {
+            background: rgba(184, 161, 255, 0.32);
+            color: #f1ecff;
+        }
+
         body, html {
             background-color: #181818 !important;
         }
@@ -30,7 +51,7 @@
         }
         .underline {
             text-decoration: underline !important;
-            color: darkcyan !important;
+            color: var(--accent-underline) !important;
         }
         code {
             background-color: #1f202f;
@@ -127,7 +148,7 @@
 
             border-top: 5px solid transparent;
             border-bottom: 5px solid transparent;
-            border-left: 6px solid #8fbcd4;
+            border-left: 6px solid var(--accent-primary-deep);
 
             transition: transform 0.15s ease;
         }
@@ -250,8 +271,8 @@
         }
 
         /* .viewer-pane.active {
-            border-color: lightskyblue;
-            box-shadow: 0 0 0 1px rgba(135, 206, 250, 0.2);
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 0 1px var(--glow-primary);
         } */
 
         .pane-header {
@@ -263,12 +284,13 @@
         }
 
         .pane-title {
-            color: #9bbfd3;
+            color: var(--accent-primary);
             font-size: 0.95rem;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
             min-width: 0;
+            text-shadow: 0 0 8px var(--glow-primary-soft);
         }
 
         .pane-close {
@@ -394,7 +416,7 @@
         #sidebarAddRowBtn,
         #paneMenuToggle {
             background: linear-gradient(180deg, rgba(40, 45, 52, 1) 0%, rgba(28, 32, 37, 1) 100%) !important;
-            border: 1px solid #58626d !important;
+            border: 1px solid #6f6396 !important;
             color: #d4dde3 !important;
             box-shadow: inset 0 1px 0 rgba(255,255,255,0.03), 0 1px 6px rgba(0,0,0,0.18);
         }
@@ -402,7 +424,7 @@
         #sidebarAddPaneBtn:hover,
         #sidebarAddRowBtn:hover,
         #paneMenuToggle:hover {
-            border-color: #7a8793 !important;
+            border-color: #9f8fe0 !important;
             background: linear-gradient(180deg, rgba(48, 54, 62, 1) 0%, rgba(34, 38, 44, 1) 100%) !important;
             color: #e6eef4 !important;
         }
@@ -417,6 +439,11 @@
             color: #cccccc;
         }
 
+        .pane-menu-main.active .pane-menu-label {
+            color: var(--accent-primary);
+            text-shadow: 0 0 8px var(--glow-primary-soft);
+        }
+
         .pane-menu-subtext {
             display: block;
             color: #7f8b92;
@@ -427,14 +454,14 @@
         }
 
         .pane-menu-main.active {
-            border-color: lightskyblue;
-            box-shadow: 0 0 0 1px rgba(135, 206, 250, 0.15);
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 0 1px var(--glow-primary-soft);
         }
 
         /* Only show highlight when sidebar is open */
         .sidebar-open .viewer-pane.active {
-            border-color: lightskyblue;
-            box-shadow: 0 0 0 1px rgba(135, 206, 250, 0.2);
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 0 1px var(--glow-primary);
         }
 
         /* When sidebar is closed → no highlight */
@@ -477,9 +504,9 @@
             align-items: center;
             justify-content: center;
             font-size: 2rem;
-            background: radial-gradient(circle at 30% 30%, rgba(135, 206, 250, 0.22), rgba(60, 78, 95, 0.18) 55%, rgba(24, 24, 24, 0.4) 100%);
-            border: 1px solid rgba(135, 206, 250, 0.2);
-            box-shadow: inset 0 0 18px rgba(135, 206, 250, 0.08);
+            background: radial-gradient(circle at 30% 30%, var(--glow-primary-strong), rgba(60, 78, 95, 0.18) 55%, rgba(24, 24, 24, 0.4) 100%);
+            border: 1px solid var(--glow-primary);
+            box-shadow: inset 0 0 18px var(--glow-primary-inner);
             flex: 0 0 auto;
         }
 
@@ -489,7 +516,7 @@
         }
 
         .audio-player-label {
-            color: #8eb8ce;
+            color: var(--accent-primary-muted);
             font-size: 0.78rem;
             letter-spacing: 0.08em;
             text-transform: uppercase;
@@ -497,11 +524,12 @@
         }
 
         .audio-player-filename {
-            color: #d7e3ea;
+            color: var(--accent-primary);
             font-size: 1.08rem;
             font-weight: 600;
             line-height: 1.35;
             word-break: break-word;
+            text-shadow: 0 0 8px rgba(184, 161, 255, 0.12);
         }
 
         .audio-player-subtext {
@@ -594,13 +622,19 @@
             -webkit-user-select: none;
         }
 
+        #root_folder {
+            color: var(--accent-primary);
+            text-shadow: 0 0 10px var(--glow-primary-soft);
+        }
+
         .sidebar-version {
             margin-top: 12px;
-            color: #7f8b92;
+            color: var(--accent-primary-muted);
             font-size: 0.72rem;
             text-align: center;
-            opacity: 0.8;
+            opacity: 0.82;
             user-select: none;
+            text-shadow: 0 0 8px rgba(184, 161, 255, 0.14);
         }
 
     </style>
@@ -654,7 +688,7 @@
                     </div>
                 </div>
                 <div id="file_list_div" style="background-color: #1f1f1f !important;"><hr><h4 class="mt-2" id="root_folder"></h4></div>
-                <div class="sidebar-version" id="sidebarVersion">v1.2.10.1</div>
+                <div class="sidebar-version" id="sidebarVersion">v1.2.10.3</div>
         </div>
 
         <div class="row m-1 sidebar-open" id="main_body">
@@ -1256,7 +1290,7 @@
                     hostEl.innerHTML = `
                         <div class="empty-pane" style="font-style: normal;">
                             Couldn't render this DOCX file.<br>
-                            <span style="color:#9bbfd3;">${file.name}</span><br>
+                            <span style="color:var(--accent-primary);">${file.name}</span><br>
                             <span style="font-size:0.9em; color:#7f8b92;">
                                 Check console for the specific DOCX error.
                             </span>
@@ -1371,7 +1405,7 @@
             document.getElementById("content_" + paneId).innerHTML = `
                 <div class="empty-pane" style="font-style: normal;">
                     Unsupported file type.<br>
-                    <span style="color:#9bbfd3;">${file.name}</span>
+                    <span style="color:var(--accent-primary);">${file.name}</span>
                 </div>
             `;
             $("#editor_" + paneId).hide();
@@ -1948,7 +1982,7 @@ function getIdealPaneWidth(paneId) {
 
                         $("#" + parentUlId).append(
                             "<li class='folderitem'>" +
-                            "<div style='background-color:#1f1f1f !important; color:lightskyblue;' class='folder-label'><b>" +
+                            "<div style='background-color:#1f1f1f !important; color:var(--accent-primary);' class='folder-label'><b>" +
                                 subFile.name +
                             "</b></div>" +
                             "<ul class='folder-children' id='" + folderUlId + "'></ul>" +
