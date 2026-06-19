@@ -1,4 +1,4 @@
-<!-- v1.2.9.7 -->
+<!-- v1.2.10.1 -->
 
 <!DOCTYPE html>
 
@@ -594,6 +594,15 @@
             -webkit-user-select: none;
         }
 
+        .sidebar-version {
+            margin-top: 12px;
+            color: #7f8b92;
+            font-size: 0.72rem;
+            text-align: center;
+            opacity: 0.8;
+            user-select: none;
+        }
+
     </style>
 
     <!-- Jquery -->
@@ -607,10 +616,6 @@
 
     <!-- Bootstrap pt 2 -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
-
-    <!-- Math.js -->
-    <script src="C:\Users\sachr\OneDrive\Documents\mathjs-14.5.2\package\lib\browser\math.js"></script>
-
     <!-- Marked.js -->
     <script src="https://cdn.jsdelivr.net/npm/marked/lib/marked.umd.js"></script>
 
@@ -623,7 +628,7 @@
     <!-- Icon img path -->
     <link rel="icon" id="pageFavicon" type="image/x-icon" href="Icon - v3.png">
 
-    <title id="pageTitle">MD Notes Manager</title>
+    <title id="pageTitle">Sammie's Notebook</title>
 
 </head>
 
@@ -649,6 +654,7 @@
                     </div>
                 </div>
                 <div id="file_list_div" style="background-color: #1f1f1f !important;"><hr><h4 class="mt-2" id="root_folder"></h4></div>
+                <div class="sidebar-version" id="sidebarVersion">v1.2.10.1</div>
         </div>
 
         <div class="row m-1 sidebar-open" id="main_body">
@@ -673,7 +679,7 @@
     let paneCounter = 0;
     let rowCounter = 0;
     let currentFullscreenPaneId = null;
-    let rootFolderTitle = "MD Notes Manager";
+    let rootFolderTitle = "Sammie's Notebook";
 
     function displayMDContent(MD_String, paneId){
         document.getElementById('content_' + paneId).innerHTML =
@@ -682,11 +688,11 @@
 
     function setPageTitle(fileName = null, useRootTitle = false) {
         if (useRootTitle) {
-            $("#pageTitle").text(rootFolderTitle || "MD Notes Manager");
+            $("#pageTitle").text(rootFolderTitle || "Sammie's Notebook");
             return;
         }
 
-        $("#pageTitle").text(fileName || rootFolderTitle || "MD Notes Manager");
+        $("#pageTitle").text(fileName || rootFolderTitle || "Sammie's Notebook");
     }
 
     function setSidebarIcon(iconSrc = null) {
@@ -908,6 +914,27 @@
     }
 
 
+    async function toggleAppFullscreen() {
+        const docEl = document.documentElement;
+        const fullscreenEl = document.fullscreenElement || document.webkitFullscreenElement;
+
+        if (fullscreenEl) {
+            if (document.exitFullscreen) {
+                await document.exitFullscreen();
+            } else if (document.webkitExitFullscreen) {
+                document.webkitExitFullscreen();
+            }
+            return;
+        }
+
+        if (docEl.requestFullscreen) {
+            await docEl.requestFullscreen();
+        } else if (docEl.webkitRequestFullscreen) {
+            docEl.webkitRequestFullscreen();
+        }
+    }
+
+
     function setActivePane(paneId) {
         if (!paneId || !paneStates[paneId]) { return; }
 
@@ -934,6 +961,15 @@
         }).get();
     }
 
+    function escapeHtml(value) {
+        return String(value ?? "")
+            .replaceAll("&", "&amp;")
+            .replaceAll("<", "&lt;")
+            .replaceAll(">", "&gt;")
+            .replaceAll('"', "&quot;")
+            .replaceAll("'", "&#039;");
+    }
+
     function renderPaneMenu() {
         const paneIds = getPaneIdsInOrder();
         const paneCount = paneIds.length;
@@ -944,12 +980,13 @@
             const state = getPaneState(paneId);
             const currentFileName = state && state.currentFile ? state.currentFile.name : "Empty";
             const currentFilePath = state && state.currentFile ? (state.currentFile.webkitRelativePath || state.currentFile.name) : "Empty";
+            const safeCurrentFilePath = escapeHtml(currentFilePath);
 
             paneList.append(`
                 <div class="pane-menu-item">
                     <button class="btn btn-secondary pane-menu-main ${activePaneId === paneId ? 'active' : ''}" data-paneid="${paneId}" type="button">
                         <span class="pane-menu-label">Pane ${index + 1}${activePaneId === paneId ? " • Active" : ""}</span>
-                        <span class="pane-menu-subtext" title="${currentFilePath}">${currentFilePath}</span>
+                        <span class="pane-menu-subtext" title="${safeCurrentFilePath}">${safeCurrentFilePath}</span>
                     </button>
                     <button class="btn btn-danger btn-sm pane-menu-remove" data-paneid="${paneId}" type="button" ${paneCount <= 1 ? "disabled" : ""}><b>✕</b></button>
                 </div>
@@ -1838,7 +1875,7 @@ function getIdealPaneWidth(paneId) {
                 children: {}
             };
 
-            rootFolderTitle = "MD Notes Manager";
+            rootFolderTitle = "Sammie's Notebook";
             setPageTitle(null, true);
             setSidebarIcon(null);
             setChromeFriendlyFavicon(null, "image/png");
@@ -1855,7 +1892,7 @@ function getIdealPaneWidth(paneId) {
 
                     if (parent_folder.type == "root" && $("#" + cleanString(folder_name)).html() == null) {
                         $("#root_folder").text(folder_name);
-                        rootFolderTitle = folder_name || "MD Notes Manager";
+                        rootFolderTitle = folder_name || "Sammie's Notebook";
                         setPageTitle(null, true);
                     }
 
@@ -1924,7 +1961,7 @@ function getIdealPaneWidth(paneId) {
             }
 
             for (let i = 0; i < selectedFiles.length; i++) {
-                sortDirectory(selectedFiles[i].webkitRelativePath, file_layout, i);
+                sortDirectory(selectedFiles[i].webkitRelativePath || selectedFiles[i].name, file_layout, i);
             };
 
             $("#file_list_div ul").remove();
@@ -2001,6 +2038,11 @@ function getIdealPaneWidth(paneId) {
             if (!isTypingTarget && (e.key === "h" || e.key === "H")) {
                 e.preventDefault();
                 toggleGUIVisibility();
+            }
+
+            if (!isTypingTarget && (e.key === "f" || e.key === "F")) {
+                e.preventDefault();
+                toggleAppFullscreen();
             }
         });
 
