@@ -1819,7 +1819,7 @@ function underlineText(elementId){
 
 function getIdealPaneWidth(paneId) {
         const state = getPaneState(paneId);
-        if (!state) { return 360; }
+        if (!state) { return 800; }
 
         if (state.image_mode) {
             const contentEl = document.getElementById("content_" + paneId);
@@ -1827,7 +1827,7 @@ function getIdealPaneWidth(paneId) {
             const sliderEl = document.getElementById("scale-slider_" + paneId);
 
             if (!contentEl || !imageEl || !imageEl.naturalWidth || !imageEl.naturalHeight) {
-                return 360;
+                return 800;
             }
 
             const contentStyles = window.getComputedStyle(contentEl);
@@ -1851,7 +1851,7 @@ function getIdealPaneWidth(paneId) {
             return 420;
         }
 
-        return 360;
+        return 800;
     }
 
     function layoutRowPanes(rowEl) {
